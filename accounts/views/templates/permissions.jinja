@@ -1,0 +1,54 @@
+{% from 'groups.jinja' import groups %}
+{% from 'scopes.jinja' import scopes %}
+
+{% macro group_display(group) %}
+	{% if group in groups %}
+		{{ groups[group] }}
+	{% else %}
+		{{ group }}
+	{% endif %}
+{% endmacro %}
+
+{% macro scope_display(scope) %}
+	{% if scope in scopes %}
+		{{ scopes[scope] }}
+	{% else %}
+		{{ scope }}
+	{% endif %}
+{% endmacro %}
+
+{% macro group_tiles(groups, inactive=None) %}
+	<p class="group_tiles">
+		{% for group in groups %}
+			<span 
+				class="group_tile{% if group in inactive %} inactive{% endif %}" 
+				data-group="{{ group }}" 
+				title="{{ group_display(group) }}">
+				{{ group_display(group) }}
+			</span>
+		{% endfor %}
+	</p>
+{% endmacro %}
+
+{% macro permissions_grid(groups=g.accounts.available_groups, selected_groups=[]) %}
+	<table>
+		<thead>
+			<td></td>
+			{% for group_name in groups %}
+				<td>{{ group_display(group_name) }}</td>
+			{% endfor %}
+		</thead>
+		<tbody>
+			{% for scope in g.accounts.available_scopes %}
+				<tr>
+					<td>{{ scope_display(scope) }}</td>
+					{% for group_name in groups %}
+						<td>
+							<input name="scope_{{ scope }}_group_{{ group_name }}" type="checkbox"{% if group_name in selected_groups[scope] %} checked{% endif %}>
+						</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endmacro %}

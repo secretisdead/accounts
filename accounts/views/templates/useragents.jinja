@@ -1,0 +1,51 @@
+{% set browsers = {
+	'camino': 'Camino',
+	'chrome': 'Chrome',
+	'firefox': 'Firefox',
+	'galeon': 'Galeon',
+	'kmeleon': 'K-Meleon',
+	'konqueror': 'Konqueror',
+	'links': 'Links',
+	'lynx': 'Lynx',
+	'msie': 'MSIE',
+	'msn': 'MSN',
+	'netscape': 'Netscape',
+	'opera': 'Opera',
+	'safari': 'Safari',
+	'seamonkey': 'Seamonkey',
+	'webkit': 'WebKit',
+} %}
+
+{% set platforms = {
+	'aix': 'AIX',
+	'amiga': 'Amiga',
+	'android': 'Android',
+	'bsd': 'BSD',
+	'chromeos': 'Chrome OS',
+	'hpux': 'HP-UX',
+	'iphone': 'iPhone',
+	'ipad': 'iPad',
+	'irix': 'IRIX',
+	'linux': 'Linux',
+	'macos': 'Max OS',
+	'sco': 'SCO',
+	'solaris': 'Solaris',
+	'wii': 'Wii',
+	'windows': 'Windows',
+} %}
+
+{% macro browser_display(browser) %}
+	{% if browser in browsers %}
+		{{ browsers[browser] }}
+	{% else %}
+		{{ browser }}
+	{% endif %}
+{% endmacro %}
+
+{% macro platform_display(platform) %}
+	{% if platform in platforms %}
+		{{ platforms[platform] }}
+	{% else %}
+		{{ platform }}
+	{% endif %}
+{% endmacro %}

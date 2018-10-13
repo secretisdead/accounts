@@ -1,0 +1,20 @@
+{% set services = {
+	'local': 'Local account',
+	'cert': 'Client certificate',
+	'mail': 'Email',
+	'google': 'Google',
+	'twitter': 'Twitter',
+	'patreon': 'Patreon',
+	'discord': 'Discord',
+	'steam': 'Steam',
+	'github': 'GitHub',
+	'twitch': 'Twitch',
+} %}
+
+{% macro service_display(service) %}
+	{% if service in services %}
+		{{ services[service] }}
+	{% else %}
+		{{ service }}
+	{% endif %}
+{% endmacro %}

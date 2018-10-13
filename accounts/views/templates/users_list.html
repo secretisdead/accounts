@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+{% block title %}Users list{% endblock %}
+{% block content %}
+	<h1>Users list</h1>
+	{% from 'users.jinja' import edit_user_link, user_profile_link, user_status, user_statuses %}
+	{% macro render_result(result) %}
+		<tr class="status_{{ result.status|string|lower }}">
+			<td>
+				<a 
+					href="{{ url_for(
+						'accounts_manager.users_list',
+						sort=pagination['sort'],
+						order=pagination['order'],
+						perpage=pagination['perpage'],
+						id=result.id,
+					) }}" 
+					title="View user in list">
+					○
+				</a>
+			</td>
+			<td data-timestamp="{{ result.creation_time }}">
+				{{ result.creation_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+			</td>
+			<td>{{ edit_user_link(result) }}</td>
+			<td>{{ user_profile_link(result) }}</td>
+			<td>{{ user_status(result) }}</td>
+			<td>{% if result.protected %}Yes{% endif %}</td>
+			{% if result.last_seen_time %}
+				<td data-timestamp="{{ result.last_seen_time }}">
+					{{ result.last_seen_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+				</td>
+			{% else %}
+				<td></td>
+			{% endif %}
+		</tr>
+	{% endmacro %}
+	{% set status_options = {'': 'Any'} %}
+	{% set _temp = status_options.update(user_statuses) %}
+	{% set columns = [
+		{
+			'name': 'id',
+			'label': 'ID',
+			'sortable': False,
+			'searchable': True,
+			'type': 'text',
+		},
+		{
+			'name': 'creation_time',
+			'label': 'Created',
+			'sortable': True,
+			'searchable': True,
+			'type': 'amount',
+			'less_than_name': 'created_before',
+			'less_than_label': 'Created before',
+			'less_than_placeholder': 'Datetime string or timestamp',
+			'greater_than_name': 'created_after',
+			'greater_than_label': 'Created after',
+			'greater_than_placeholder': 'Datetime string or timestamp',
+		},
+		{
+			'name': 'name',
+			'label': 'Name',
+			'sortable': True,
+			'searchable': True,
+			'type': 'text',
+		},
+		{
+			'name': 'display',
+			'label': 'Display',
+			'sortable': True,
+			'searchable': True,
+			'type': 'text',
+		},
+		{
+			'name': 'status',
+			'label': 'Status',
+			'sortable': True,
+			'searchable': True,
+			'type': 'select',
+			'options': status_options,
+		},
+		{
+			'name': 'protection',
+			'label': 'Protected',
+			'sortable': False,
+			'searchable': True,
+			'type': 'select',
+			'options': {
+				'': 'Any',
+				'protected': 'Protected',
+				'unprotected': 'Unprotected',
+			},
+		},
+		{
+			'name': 'last_seen_time',
+			'label': 'Last seen',
+			'sortable': True,
+			'searchable': False,
+		},
+	] %}
+	{% from 'tabular_list.jinja' import tabular_list %}
+	{{ tabular_list(
+		columns,
+		'accounts_manager.users_list',
+		results,
+		total_results,
+		render_result,
+		total_pages,
+		pagination,
+		search
+	) }}
+{% endblock %}

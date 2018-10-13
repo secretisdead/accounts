@@ -1,0 +1,54 @@
+<p>
+	{% if redeemed_invite %}
+		{% from 'users.jinja' import user_profile_link %}
+		Invited by {{ user_profile_link(redeemed_invite.created_by_user) }} on 
+	{% else %}
+			Joined 
+	{% endif %}
+	<span data-timestamp="{{ user.creation_time }}">
+		{{ user.creation_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+	</span>
+</p>
+{% for error in errors %}
+	<p class="form_error">{{ error }}</p>
+{% endfor %}
+<form method="post" enctype="multipart/form-data" novalidate>
+	{% from 'users.jinja' import user_avatar %}
+	{% set avatar_label = 'Avatar' %}
+	<div class="avatar_preview">
+		{{ user_avatar(user, profile_link=False, fresh=True) }}
+	</div>
+	{% if user.avatar %}
+		{% set avatar_label = 'Change Avatar' %}
+		<input id="remove_avatar" name="remove_avatar" type="checkbox">
+		<label for="remove_avatar">Remove Avatar</label>
+		<br>
+	{% endif %}
+	<span class="form_file">
+		<label for="avatar">{{ avatar_label }}</label>
+		<input id="avatar" name="avatar" type="file" required>
+		<span 
+			class="file_selection" 
+			data-file-selected="File selected" 
+			data-file-not-selected="No file selected"></span>
+	</span>
+	<br>
+	<label for="name">Name</label>
+	<input 
+		id="name" 
+		name="name" 
+		type="text" 
+		value="{{ name }}" 
+		maxlength="{{ g.accounts.name_length + 1 }}">
+	<br>
+	<label for="display">Display</label>
+	<input 
+		id="display" 
+		name="display" 
+		type="text" 
+		value="{{ display }}" 
+		maxlength="{{ g.accounts.display_length + 1 }}">
+	<br>
+	<input type="submit" value="Save changes">
+</form>
+

@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block title %}Create auto permissions{% endblock %}
+{% block content %}
+	<h1>Create auto permissions</h1>
+	<nav>
+		<a href="{{ url_for('accounts_manager.auto_permissions_list') }}">Return</a>
+	</nav>
+	{% from 'permissions.jinja' import permissions_grid, scope_display %}
+	{% for error in errors %}
+		<p class="form_error">{{ error }}</p>
+	{% endfor %}
+	<form method="post">
+		{#TODO maybe a more usable duration input eventually instead of manually entering seconds #}
+		<label for="duration">Duration (seconds)</label>
+		<input 
+			id="duration" 
+			name="duration" 
+			type="text" 
+			value="{{ g.accounts.config['default_auto_permission_duration'] }}">
+		<br>
+		{{ permissions_grid(groups=g.accounts.available_groups, selected_groups=[]) }}
+		<label for="user">Lock to user</label>
+		<input 
+			id="user_id" 
+			name="user_id" 
+			type="text" 
+			placeholder="User ID">
+		<br>
+		<input type="submit" value="Create auto permissions">
+	</form>
+{% endblock %}

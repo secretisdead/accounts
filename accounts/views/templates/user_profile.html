@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% from 'users.jinja' import user_display %}
+{% block title %}Profile of {{ user_display(user) }}{% endblock %}
+{% block content %}
+	<h1>Profile of {{ user_display(user) }}</h1>
+	{% from 'users.jinja' import user_avatar %}
+	{{ user_avatar(user, profile_link=False, fresh=fresh) }}
+	{% for card in cards %}
+		<p class="user_profile_card" data-card="{{ card['name'] }}">
+			{% if 'uri' in card %}
+				<a href="{{ card['uri'] }}" title="{{ card['title'] }}">
+					{{ card['display'] }}
+				</a>
+			{% else %}
+				{{ card['detail'] }}
+			{% endif %}
+		</p>
+	{% endfor %}
+	{% from 'permissions.jinja' import group_tiles %}
+	{{ group_tiles(groups, inactive_groups) }}
+{% endblock %}

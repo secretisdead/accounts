@@ -1,0 +1,123 @@
+{% extends 'layout.html' %}
+{% block title %}Authentications list{% endblock %}
+{% block content %}
+	<h1>Authentications list</h1>
+	{% from 'users.jinja' import edit_user_link %}
+	{% from 'authentications.jinja' import services, service_display %}
+	{% macro render_result(result) %}
+		<tr>
+			<td>
+				<a 
+					href="{{ url_for(
+						'accounts_manager.authentications_list',
+						sort=pagination['sort'],
+						order=pagination['order'],
+						perpage=pagination['perpage'],
+						id=result.id,
+					) }}" 
+					title="View authentication in list">
+					○
+				</a>
+			</td>
+			<td data-timestamp="{{ result.creation_time }}">
+				{{ result.creation_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+			</td>
+			<td>{{ edit_user_link(result.user) }}</td>
+			<td>
+				<a href="{{ url_for(
+						'accounts_manager.authentications_list',
+						sort=pagination['sort'],
+						order=pagination['order'],
+						perpage=pagination['perpage'],
+						user=result.user.id,
+					) }}" 
+					title="Search this user">
+					Search user
+				</a>
+			</td>
+			<td>
+				<a href="{{ url_for(
+						'accounts_manager.authentications_list',
+						sort=pagination['sort'],
+						order=pagination['order'],
+						perpage=pagination['perpage'],
+						service=result.service,
+					) }}">
+					{{ service_display(result.service) }}
+				</a>
+			</td>
+			<td>
+				<a href="{{ url_for(
+						'accounts_manager.view_user_authentication',
+						user_id=result.user.id, service=result.service,
+					) }}" 
+					title="View authentication">
+					View
+				</a>
+			</td>
+		</tr>
+	{% endmacro %}
+	{% set service_options = {'': ''} %}
+	{% set _temp = service_options.update(services) %}
+	{% set columns = [
+		{
+			'name': 'id',
+			'label': 'ID',
+			'sortable': False,
+			'searchable': True,
+			'type': 'text',
+		},
+		{
+			'name': 'creation_time',
+			'label': 'Created',
+			'sortable': True,
+			'searchable': True,
+			'type': 'amount',
+			'less_than_name': 'created_before',
+			'less_than_label': 'Created before',
+			'less_than_placeholder': 'Datetime string or timestamp',
+			'greater_than_name': 'created_after',
+			'greater_than_label': 'Created after',
+			'greater_than_placeholder': 'Datetime string or timestamp',
+		},
+		{
+			'name': 'user',
+			'label': 'User',
+			'sortable': False,
+			'searchable': True,
+			'type': 'text',
+			'placeholder': 'User ID',
+		},
+		{
+			'name': 'search_user',
+			'label': '',
+			'sortable': False,
+			'searchable': False,
+		},
+		{
+			'name': 'service',
+			'label': 'Service',
+			'sortable': True,
+			'searchable': True,
+			'type': 'select',
+			'options': service_options,
+		},
+		{
+			'name': '',
+			'label': '',
+			'sortable': False,
+			'searchable': False,
+		}
+	] %}
+	{% from 'tabular_list.jinja' import tabular_list %}
+	{{ tabular_list(
+		columns,
+		'accounts_manager.authentications_list',
+		results,
+		total_results,
+		render_result,
+		total_pages,
+		pagination,
+		search,
+	) }}
+{% endblock %}

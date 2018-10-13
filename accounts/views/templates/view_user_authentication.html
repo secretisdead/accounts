@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+{% block title %}View user authentication{% endblock %}
+{% block content %}
+	<h1>View user authentication</h1>
+	<a href="{{ url_for('accounts_manager.edit_user', user_id=authentication.user.id) }}">Return</a>
+	{% set value = '' %}
+	{% if 'local' == authentication.service %}
+		{% set value = authentication.user.id %}
+	{% elif 'cert' == authentication.service %}
+	{% else %}
+		{% set value = authentication.value %}
+		{% if 'mail' == authentication.service %}
+		{% elif 'google' == authentication.service %}
+		{% elif 'twitter' == authentication.service %}
+		{% elif 'patreon' == authentication.service %}
+		{% elif 'discord' == authentication.service %}
+		{% elif 'steam' == authentication.service %}
+		{% elif 'twitch' == authentication.service %}
+		{% endif %}
+	{% endif %}
+	{% from 'users.jinja' import edit_user_link %}
+	{% from 'authentications.jinja' import service_display %}
+	<table>
+		<tbody>
+			<tr>
+				<td>User</td>
+				<td>{{ edit_user_link(authentication.user) }}</td>
+			</tr>
+			<tr>
+				<td>Service</td>
+				<td>{{ service_display(authentication.service) }}</td>
+			</tr>
+			<tr>
+				<td>Connected</td>
+				<td data-timestamp="{{ authentication.creation_time }}">
+					{{ authentication.creation_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+				</td>
+			</tr>
+			{% if value %}
+				<tr>
+					<td>Value</td>
+					<td>{{ value }}</td>
+				</tr>
+			{% endif %}
+			{% set non_profile_services = ['mail'] %}
+			{% if authentication.service not in non_profile_services %}
+				<tr>
+					<td colspan="2">
+						<a href="{{ url_for(
+								'accounts_manager.authentication_redirect',
+								user_id=authentication.user.id,
+								service=authentication.service,
+							) }}">
+							View profile on service
+						</a>
+					</td>
+				</tr>
+			{% endif %}
+		</tbody>
+	</table>
+{% endblock %}

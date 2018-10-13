@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+	<h1>Sign in services</h1>
+	{% from 'authentications.jinja' import service_display %}
+	{% for service in g.accounts.enabled_services %}
+		<p>
+			{% if invite %}
+				<a href="{{ url_for(endpoint, service=service, invite=invite) }}">
+			{% else %}
+				<a href="{{ url_for(endpoint, service=service) }}">
+			{% endif %}
+				{{ service_display(service) }}
+			</a>
+		</p>
+	{% endfor %}
+{% endblock %}

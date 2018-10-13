@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block title %}User Settings{% endblock %}
+{% block content %}
+	<h1>Settings</h1>
+	<nav>
+		<a href="{{ url_for('accounts_signed_in.redeem_auto_permission') }}"
+			title="Redeem a permission code">Redeem permission</a>
+		<a 
+			href="{{ url_for('accounts_signed_out.profile', user_identifier=user.identifier) }}" 
+			title="View your public profile">Public profile</a>
+	</nav>
+	{% include 'user_settings_form.html' %}
+	{% if 0 < g.accounts.config['authentication_services'].items()|length %}
+		<h1>Authentications</h1>
+		{% from 'authentications.jinja' import service_display %}
+		{% for service, enabled in g.accounts.config['authentication_services'].items() %}
+			{% if enabled or service in user.authentications %}
+				<p>
+					{% if service in user.authentications %}
+						<a 
+							class="authentication_service disconnect" 
+							href="{{ url_for('accounts_signed_in.remove_authentication', service=service) }}" 
+							title="{{ 'Click to disconnect your {}'.format(service_display(service)) }}" 
+							data-service="{{ service }}">
+							{{ '{} connected'.format(service_display(service)) }}
+							<br>
+							<small>Click to disconnect</small>
+						</a>
+					{% else %}
+						<a 
+							class="authentication_service connect" 
+							href="{{ url_for('accounts_signed_in.add_authentication', service=service) }}" 
+							title="{{ 'Click to connect your {}'.format(service_display(service)) }}" 
+							data-service="{{ service }}">
+							{{ 'Connect {}'.format(service_display(service)) }}
+						</a>
+					{% endif %}
+				</p>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+	{% from 'users.jinja' import user_sessions_table, user_invites_table %}
+	{{ user_sessions_table(
+		sessions,
+		url_for('accounts_signed_in.close_all_sessions'),
+		'accounts_signed_in.close_session',
+	) }}
+	{% if g.accounts.config['registration_closed'] or 0 < invites.values()|length %}
+		<h1>Invites</h1>
+	{% endif %}
+	{% if g.accounts.config['registration_closed'] %}
+		<p><a href="{{ url_for('accounts_signed_in.create_invite') }}">Create Invite</a></p>
+	{% endif %}
+	{{ user_invites_table(invites, 'accounts_signed_in.remove_invite') }}
+	<h1>Deactivate account</h1>
+	<p>Deactivating your account is permanent. Please be sure before continuing.</p>
+	<p><a href="{{ url_for('accounts_signed_in.deactivate') }}">Deactivate account</a></p>
+{% endblock %}

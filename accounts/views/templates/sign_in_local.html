@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block title %}Sign in with local account{% endblock %}
+{% block content %}
+	<h1>Sign in with local account</h1>
+	{% for error in errors %}
+		<p class="form_error">{{ error }}</p>
+	{% endfor %}
+	<form method="post">
+		<label for="account_name">Account name</label>
+		<input 
+			id="account_name" 
+			name="account_name" 
+			type="text" 
+			value="{{ account_name }}">
+		<br>
+		<label for="pass">Passphrase</label>
+		<input id="pass" name="pass" type="password">
+		<br>
+		<input type="submit" value="Sign in">
+	</form>
+	<p>
+		{% if not g.accounts.config['registration_closed'] %}
+			<a href="{{ url_for('accounts_signed_out.register', service='local') }}">
+				Register
+			</a>
+		{% else %}
+			<a href="{{ url_for('accounts_signed_out.redeem_invite', service='local') }}">
+				Redeem invite
+			</a>
+		{% endif %}
+	</p>
+{% endblock %}

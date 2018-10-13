@@ -1,0 +1,215 @@
+{% set user_statuses = {
+	'deactivated_by_staff': 'Deactivated (staff)',
+	'deactivated_by_self': 'Deactivated (self)',
+	'awaiting_activation': 'Awaiting activation',
+	'activated': 'Activated',
+} %}
+
+{% macro edit_user_link(user) %}
+	{% if not user %}
+		{{ user_name(user) }}
+	{% else %}
+		<a 
+			href="{{ url_for('accounts_manager.edit_user', user_id=user.id) }}" 
+			title="Edit user">{{ user_name(user) }}</a>
+	{% endif %}
+{% endmacro %}
+
+{% macro user_profile_link(user) %}
+	{% if not user %}
+		{{ user_display(user) }}
+	{% else %}
+		<a 
+			href="{{ url_for('accounts_signed_out.profile', user_identifier=user.identifier) }}" 
+			title="View profile">{{ user_display(user) }}</a>
+	{% endif %}
+{% endmacro %}
+
+{% macro user_display(user) %}
+	{% if not user %}
+		Guest
+	{% elif user.display %}
+		{{ user.display|e }}
+	{% elif user.name %}
+		{{ user.name|e }}
+	{% else %}
+		Anonymous
+	{% endif %}
+{% endmacro %}
+
+{% macro user_name(user) %}
+	{% if not user %}
+		Guest
+	{% elif user.name %}
+		{{ user.name|e }}
+	{% else %}
+		Anonymous
+	{% endif %}
+{% endmacro %}
+
+{% macro user_status(user) %}
+	{% if user.status|string|lower in user_statuses %}
+		{{ user_statuses[user.status|string|lower] }}
+	{% else %}
+		{{ user.status|string|lower }}
+	{% endif %}
+{% endmacro %}
+
+{% macro user_avatar(user, profile_link=True, fresh=False) %}
+	{% if not user %}
+		<div class="avatar guest">{{ user_display(user) }}</div>
+	{% elif not user.is_active() %}
+		<div class="avatar deactivated" title="{{ user_status(user) }}">
+			{{ user_status(user) }}
+		</div>
+	{% elif not user.avatar %}
+		<div class="avatar default" title="{{ user_display(user) }}">
+			{% if profile_link %}
+				<a href="{{ url_for(
+						'accounts_user.profile',
+						user_identifier=user.identifier,
+					) }}">
+					{{ user_display(user) }}
+				</a>
+			{% else %}
+				{{ user_display(user) }}
+			{% endif %}
+		</div>
+	{% else %}
+		{% if fresh %}
+			{% set fresh_query = '?' + user.touch_time|string %}
+		{% else %}
+			{% set fresh_query = '' %}
+		{% endif %}
+		<div class="avatar{{ avatar_class }}" title="{{ user_display(user) }}">
+			{% if profile_link %}
+				<a href="{{ url_for(
+						'accounts_user.profile',
+						user_identifier=user.identifier,
+					) }}">
+			{% endif %}
+			<picture>
+				<source 
+					srcset="{{ user.avatar }}.webp{{ fresh_query }}" 
+					type="image/webp">
+				<source 
+					srcset="{{ user.avatar }}.png{{ fresh_query }}" 
+					type="image/png">
+				<img 
+					src="{{ user.avatar }}.png{{ fresh_query }}" 
+					alt="Avatar of {{ user_display(user) }}">
+			</picture>
+			{% if profile_link %}
+				</a>
+			{% endif %}
+		</div>
+	{% endif %}
+{% endmacro %}
+
+{% macro user_sessions_table(sessions, close_all_sessions_uri, close_session_endpoint) %}
+	{% from 'useragents.jinja' import browser_display, platform_display %}
+	{% if 0 < sessions|length %}
+		<h1>Sessions</h1>
+		<p>
+			<a href="{{ close_all_sessions_uri }}">Close all sessions</a>
+		</p>
+		<table>
+			<thead>
+				<tr>
+					<td>Platform</td>
+					<td>Location</td>
+					<td>Seen</td>
+					<td>Closed</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for session in sessions.values() %}
+					<tr>
+						<td>
+							<span class="browser">
+								{{ browser_display(session.useragent.browser) }}
+							</span> 
+							<span class="operating_system">
+								{{ platform_display(session.useragent.platform) }}
+							</span>
+						</td>
+						<td>{{ session.remote_origin.exploded }}</td>
+						<td data-timestamp="{{ session.touch_time }}">
+							{{ session.touch_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+						</td>
+						{% if session.close_time %}
+							<td data-timestamp="{{ session.close_time }}">
+								{{ session.close_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+							</td>
+						{% else %}
+							<td>
+								<a href="{{ url_for(
+										close_session_endpoint,
+										session_id=session.id,
+									) }}">
+									{% if session.id == g.accounts.current_user.session.id %}
+										Sign out
+									{% else %}
+										Close
+									{% endif %}
+								</a>
+							</td>
+						{% endif %}
+						<td></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+{% endmacro %}
+
+{% macro user_invites_table(invites, remove_invite_endpoint) %}
+	{% if 0 < invites|length %}
+		<table>
+			<thead>
+				<tr>
+					<td>Created</td>
+					<td>Redeemed</td>
+					<td>Redeemed by</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for invite in invites.values() %}
+					<tr>
+						<td data-timestamp="{{ invite.creation_time }}">
+							{{ invite.creation_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+						</td>
+						{% if invite.redeemed_by_user and invite.redeem_time %}
+							<td data-timestamp="{{ invite.redeem_time }}">
+								{{ invite.redeem_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+							</td>
+							<td>
+								{{ user_profile_link(invite.redeemed_by_user) }}
+							</td>
+							<td></td>
+							<td></td>
+						{% else %}
+							<td></td>
+							<td></td>
+							<td>
+								<a 
+									href="{{ url_for('accounts_signed_out.redeem_invite', invite=invite.id) }}" 
+									title="Redeem invite">
+									Redemption link
+								</a>
+							</td>
+							<td>
+								<a 
+									href="{{ url_for(remove_invite_endpoint, invite_id=invite.id) }}" 
+									title="Remove invite">
+									Remove
+								</a>
+							</td>
+							<td></td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+{% endmacro %}

@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block title %}Edit user{% endblock %}
+{% block content %}
+	<h1>Edit user settings</h1>
+	<nav>
+		<a 
+			href="{{ url_for('accounts_manager.users_list') }}" 
+			title="Return to users list">Return</a>
+		<a 
+			href="{{ url_for('accounts_signed_out.profile', user_identifier=user.identifier) }}" 
+			title="View user's public profile">Public profile</a>
+	</nav>
+	{% include 'user_settings_form.html' %}
+	<h1>Permissions</h1>
+	{% from 'permissions.jinja' import permissions_grid %}
+	<form method="post">
+		<input id="protected" name="protected" type="checkbox"{% if user.protected %} checked{% endif %}>
+		<label for="protected">Protected</label>
+		<br>
+		{{ permissions_grid(groups=groups, selected_groups=selected_groups) }}
+		<input name="permissions_submit" type="submit" value="Save permissions">
+	</form>
+	{% if 0 < user.authentications.items()|length %}
+		<h1>Authentications</h1>
+		{% from 'authentications.jinja' import service_display %}
+		{% for service in g.accounts.config['authentication_services'].keys() %}
+			{% if service in user.authentications %}
+				<p>
+					<a 
+						class="authentication_service view" 
+						href="{{ url_for('accounts_manager.view_user_authentication', user_id=user.id, service=service) }}" 
+						title="View authentication" 
+						data-service="{{ service }}">
+						{{ '{} connected'.format(service_display(service)) }}
+					</a>
+				</p>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+	{% from 'users.jinja' import user_sessions_table, user_invites_table %}
+	{{ user_sessions_table(
+		sessions,
+		url_for('accounts_manager.close_all_sessions', user_id=user.id),
+		'accounts_manager.close_session',
+	) }}
+	{% if 0 < invites.values()|length %}
+		<h1>Invites</h1>
+	{% endif %}
+	{{ user_invites_table(invites, 'accounts_manager.remove_invite') }}
+	<h1>Account status</h1>
+	{% if not user.is_active() %}
+		{% from 'users.jinja' import user_status %}
+		<p>{{ user_status(user) }}</p>
+		<p><a href="{{ url_for('accounts_manager.activate_user', user_id=user.id) }}">Activate</a></p>
+	{% else %}
+		<p>Deactivating user accounts will clear their settings, de-associate their user content with their account, and close their sessions. Please be sure before continuing.</p>
+		<p><a href="{{ url_for('accounts_manager.deactivate_user', user_id=user.id) }}">Deactivate account</a></p>
+	{% endif %}
+{% endblock %}
