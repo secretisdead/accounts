@@ -193,7 +193,6 @@ class Accounts(Users):
 		subject_id = ''
 		if auto_permission.created_by_user_id:
 			subject_id = auto_permission.created_by_user_id
-		object_id = ''
 		self.access_log.create_log(
 			scope='create_auto_permission',
 			subject_id=subject_id,
