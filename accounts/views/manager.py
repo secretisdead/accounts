@@ -48,25 +48,26 @@ def users_list():
 		'created_after',
 	]
 	for field, value in search.items():
-		if value:
-			if 'id' == field:
-				filter['ids'] = value
-			elif field in time_fields:
-				try:
-					parsed = dateutil.parser.parse(value)
-				except ValueError:
-					filter[field] = 'bad_query'
-				else:
-					search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
-					filter[field] = parsed.timestamp()
-			elif 'name' == field:
-				filter['names'] = '%' + escape(value) + '%'
-			elif 'display' == field:
-				filter['displays'] = '%' + escape(value) + '%'
-			elif 'status' == field:
-				filter['statuses'] = value
-			elif 'protection' == field:
-				filter['protection'] = ('protected' == value)
+		if not value:
+			continue
+		if 'id' == field:
+			filter['ids'] = value
+		elif field in time_fields:
+			try:
+				parsed = dateutil.parser.parse(value)
+			except ValueError:
+				filter[field] = 'bad_query'
+			else:
+				search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+				filter[field] = parsed.timestamp()
+		elif 'name' == field:
+			filter['names'] = '%' + escape(value) + '%'
+		elif 'display' == field:
+			filter['displays'] = '%' + escape(value) + '%'
+		elif 'status' == field:
+			filter['statuses'] = value
+		elif 'protection' == field:
+			filter['protection'] = ('protected' == value)
 
 	pagination = pagination_from_request('last_seen_time', 'desc', 0, 32)
 
@@ -228,23 +229,24 @@ def permissions_list():
 		'created_after',
 	]
 	for field, value in search.items():
-		if value:
-			if 'id' == field:
-				filter['ids'] = value
-			elif field in time_fields:
-				try:
-					parsed = dateutil.parser.parse(value)
-				except ValueError:
-					filter[field] = 'bad_query'
-				else:
-					search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
-					filter[field] = parsed.timestamp()
-			elif 'user' == field:
-				filter['user_ids'] = value
-			elif 'scope' == field:
-				if 'global' == value:
-					value = ''
-				filter['scopes'] = value
+		if not value:
+			continue
+		if 'id' == field:
+			filter['ids'] = value
+		elif field in time_fields:
+			try:
+				parsed = dateutil.parser.parse(value)
+			except ValueError:
+				filter[field] = 'bad_query'
+			else:
+				search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+				filter[field] = parsed.timestamp()
+		elif 'user' == field:
+			filter['user_ids'] = value
+		elif 'scope' == field:
+			if 'global' == value:
+				value = ''
+			filter['scopes'] = value
 	selected_groups = []
 	for group in g.accounts.available_groups:
 		if 'group_' + group in request.form:
@@ -301,33 +303,34 @@ def auto_permissions_list():
 		'valid_until',
 	]
 	for field, value in search.items():
-		if value:
-			if 'id' == field:
-				filter['ids'] = value
-			elif field in time_fields:
-				try:
-					parsed = dateutil.parser.parse(value)
-				except ValueError:
-					filter[field] = 'bad_query'
-				else:
-					search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
-					filter[field] = parsed.timestamp()
-			elif 'created_by_user' == field:
-				if 'system' == value:
-					value = ''
-				filter['created_by_user_ids'] = value
-			elif 'duration_longer_than' == field:
-				filter['duration_longer_than'] = value
-			elif 'duration_shorter_than' == field:
-				filter['duration_shorter_than'] = value
-			elif 'scope' == field:
-				if 'global' == value:
-					value = ''
-				filter['scopes'] = value
-			elif 'user' == field:
-				filter['user_ids'] = value
-			elif 'group_' == field[:6]:
-				group_bits = g.accounts.combine_groups(bits=[group_bits], names=[field[6:]])
+		if not value:
+			continue
+		if 'id' == field:
+			filter['ids'] = value
+		elif field in time_fields:
+			try:
+				parsed = dateutil.parser.parse(value)
+			except ValueError:
+				filter[field] = 'bad_query'
+			else:
+				search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+				filter[field] = parsed.timestamp()
+		elif 'created_by_user' == field:
+			if 'system' == value:
+				value = ''
+			filter['created_by_user_ids'] = value
+		elif 'duration_longer_than' == field:
+			filter['duration_longer_than'] = value
+		elif 'duration_shorter_than' == field:
+			filter['duration_shorter_than'] = value
+		elif 'scope' == field:
+			if 'global' == value:
+				value = ''
+			filter['scopes'] = value
+		elif 'user' == field:
+			filter['user_ids'] = value
+		elif 'group_' == field[:6]:
+			group_bits = g.accounts.combine_groups(bits=[group_bits], names=[field[6:]])
 	if group_bits:
 		filter['with_group_bits'] = group_bits
 
@@ -443,21 +446,22 @@ def sessions_list():
 		'closed_after',
 	]
 	for field, value in search.items():
-		if value:
-			if 'id' == field:
-				filter['ids'] = value
-			elif field in time_fields:
-				try:
-					parsed = dateutil.parser.parse(value)
-				except ValueError:
-					filter[field] = 'bad_query'
-				else:
-					search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
-					filter[field] = parsed.timestamp()
-			elif 'user' == field:
-				filter['user_ids'] = value
-			elif 'remote_origin' == field:
-				filter['with_remote_origins'] = value
+		if not value:
+			continue
+		if 'id' == field:
+			filter['ids'] = value
+		elif field in time_fields:
+			try:
+				parsed = dateutil.parser.parse(value)
+			except ValueError:
+				filter[field] = 'bad_query'
+			else:
+				search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+				filter[field] = parsed.timestamp()
+		elif 'user' == field:
+			filter['user_ids'] = value
+		elif 'remote_origin' == field:
+			filter['with_remote_origins'] = value
 
 	pagination = pagination_from_request('touch_time', 'desc', 0, 32)
 
@@ -520,19 +524,20 @@ def authentications_list():
 		'created_after',
 	]
 	for field, value in search.items():
-		if value:
-			if field in time_fields:
-				try:
-					parsed = dateutil.parser.parse(value)
-				except ValueError:
-					filter[field] = 'bad_query'
-				else:
-					search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
-					filter[field] = parsed.timestamp()
-			elif 'user' == field:
-				filter['user_ids'] = value
-			elif 'service' == field:
-				filter['services'] = value
+		if not value:
+			continue
+		if field in time_fields:
+			try:
+				parsed = dateutil.parser.parse(value)
+			except ValueError:
+				filter[field] = 'bad_query'
+			else:
+				search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+				filter[field] = parsed.timestamp()
+		elif 'user' == field:
+			filter['user_ids'] = value
+		elif 'service' == field:
+			filter['services'] = value
 
 	pagination = pagination_from_request('creation_time', 'desc', 0, 32)
 
@@ -626,23 +631,24 @@ def invites_list():
 		'redeemed_after',
 	]
 	for field, value in search.items():
-		if value:
-			if 'id' == field:
-				filter['ids'] = value
-			elif field in time_fields:
-				try:
-					parsed = dateutil.parser.parse(value)
-				except ValueError:
-					filter[field] = 'bad_query'
-				else:
-					search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
-					filter[field] = parsed.timestamp()
-			elif 'created_by_user' == field:
-				if 'system' == value:
-					value = ''
-				filter['created_by_user_ids'] = value
-			elif 'redeemed_by_user' == field:
-				filter['redeemed_by_user_ids'] = value
+		if not value:
+			continue
+		if 'id' == field:
+			filter['ids'] = value
+		elif field in time_fields:
+			try:
+				parsed = dateutil.parser.parse(value)
+			except ValueError:
+				filter[field] = 'bad_query'
+			else:
+				search[field] = parsed.strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+				filter[field] = parsed.timestamp()
+		elif 'created_by_user' == field:
+			if 'system' == value:
+				value = ''
+			filter['created_by_user_ids'] = value
+		elif 'redeemed_by_user' == field:
+			filter['redeemed_by_user_ids'] = value
 
 	pagination = pagination_from_request('creation_time', 'desc', 0, 32)
 
