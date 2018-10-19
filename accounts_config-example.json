@@ -1,0 +1,67 @@
+{
+	"db_prefix": "",
+
+	"temp_path": "path/to/temporary/directory",
+	"avatars_path": "path/to/avatars/directory",
+
+	"avatar_file_uri": "",
+
+	"avatar_edge": 64,
+
+	"session": {
+		"name": "session_cookie_name",
+		"lifetime": 31557600,
+		"review_lifetime": 2628000,
+		"path": "",
+		"path": "/",
+		"domain": "",
+		"secure": false
+	},
+	"ignore_session_useragent_mismatch": true,
+	"ignore_session_remote_origin_mismatch": false,
+
+	"invite_lifetime": 604800,
+
+	"registration_closed": true,
+
+	"registration_cooldown_amount": 3,
+	"registration_cooldown_period": 604800,
+
+	"automatic_activation": true,
+
+	"authentication_collision_cooldown_amount": 12,
+	"authentication_collision_cooldown_period": 86400,
+
+	"sign_in_attempt_cooldown_amount": 12,
+	"sign_in_attempt_cooldown_period": 86400,
+
+	"invite_creation_cooldown_amount": 1,
+	"invite_creation_cooldown_period": 86400,
+
+	"authentication_services": {
+		"local": true,
+		"google": true,
+		"twitter": true,
+		"patreon": true,
+		"discord": true,
+		"steam": true,
+		"github": true,
+		"twitch": true
+	},
+
+	"maximum_name_length": 16,
+	"maximum_display_length": 16,
+	"minimum_pass_length": 12,
+
+	"default_auto_permission_duration": 3110400,
+
+	"home_endpoint": "home",
+
+	"reserved_names": [
+		"add_reserved_names_here"
+	],
+
+	"always_visible_profile_groups": [
+		"add_group_names_here"
+	]
+}
