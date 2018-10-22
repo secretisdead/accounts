@@ -66,7 +66,7 @@
 		<div class="avatar default" title="{{ user_display(user) }}">
 			{% if profile_link %}
 				<a href="{{ url_for(
-						'accounts_user.profile',
+						'accounts_signed_out.profile',
 						user_identifier=user.identifier,
 					) }}">
 					{{ user_display(user) }}
@@ -84,7 +84,7 @@
 		<div class="avatar{{ avatar_class }}" title="{{ user_display(user) }}">
 			{% if profile_link %}
 				<a href="{{ url_for(
-						'accounts_user.profile',
+						'accounts_signed_out.profile',
 						user_identifier=user.identifier,
 					) }}">
 			{% endif %}
