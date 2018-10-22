@@ -30,11 +30,12 @@
 						perpage=pagination['perpage'],
 						user=result.user.id,
 					) }}" 
-					title="Search this user's permissions">
+					title="Search this user's permissions" 
+					class="search">
 					(Search)
 				</a>
+				{{ edit_user_link(result.user) }}
 			</td>
-			<td>{{ edit_user_link(result.user) }}</td>
 			<td>
 				{% if not result.scope %}
 					{% set scope = 'global' %}
@@ -87,12 +88,6 @@
 			'greater_than_name': 'created_after',
 			'greater_than_label': 'Created after',
 			'greater_than_placeholder': 'Datetime string',
-		},
-		{
-			'name': 'search_user',
-			'label': '',
-			'sortable': False,
-			'searchable': False,
 		},
 		{
 			'name': 'user',

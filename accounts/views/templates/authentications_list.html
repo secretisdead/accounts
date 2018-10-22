@@ -22,7 +22,6 @@
 			<td data-timestamp="{{ result.creation_time }}">
 				{{ result.creation_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
 			</td>
-			<td>{{ edit_user_link(result.user) }}</td>
 			<td>
 				<a href="{{ url_for(
 						'accounts_manager.authentications_list',
@@ -31,9 +30,11 @@
 						perpage=pagination['perpage'],
 						user=result.user.id,
 					) }}" 
-					title="Search this user">
-					Search user
+					title="Search this user" 
+					class="search">
+					(Search)
 				</a>
+				{{ edit_user_link(result.user) }}
 			</td>
 			<td>
 				<a href="{{ url_for(
@@ -87,12 +88,6 @@
 			'searchable': True,
 			'type': 'text',
 			'placeholder': 'User ID',
-		},
-		{
-			'name': 'search_user',
-			'label': '',
-			'sortable': False,
-			'searchable': False,
 		},
 		{
 			'name': 'service',

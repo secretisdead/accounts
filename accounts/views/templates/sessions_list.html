@@ -30,11 +30,12 @@
 						perpage=pagination['perpage'],
 						user=result.user.id,
 					) }}" 
-					title="Search this user's sessions">
+					title="Search this user's sessions" 
+					class="search">
 					(Search)
 				</a> 
+				{{ edit_user_link(result.user) }}
 			</td>
-			<td>{{ edit_user_link(result.user) }}</td>
 			<td>
 				<a href="{{ url_for(
 						'accounts_manager.sessions_list',
@@ -81,12 +82,6 @@
 			'greater_than_name': 'created_after',
 			'greater_than_label': 'Created after',
 			'greater_than_placeholder': 'Datetime string',
-		},
-		{
-			'name': 'search_user',
-			'label': '',
-			'sortable': False,
-			'searchable': False,
 		},
 		{
 			'name': 'user',

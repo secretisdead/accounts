@@ -34,11 +34,10 @@
 						perpage=pagination['perpage'],
 						created_by_user=created_by_user_id,
 					) }}" 
-					title="Search this user's created invites">
+					title="Search this user's created invites" 
+					class="search">
 					(Search)
-				</a>
-			</td>
-			<td>
+				</a> 
 				{% if not result.created_by_user %}
 					System
 				{% else %}

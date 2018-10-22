@@ -39,11 +39,10 @@
 						perpage=pagination['perpage'],
 						created_by_user=created_by_user_id,
 					) }}" 
-					title="Search this user's created auto permissions">
+					title="Search this user's created auto permissions" 
+					class="search">
 					(Search)
-				</a>
-			</td>
-			<td>
+				</a> 
 				{% if not result.created_by_user %}
 					System
 				{% else %}
@@ -87,14 +86,13 @@
 							perpage=pagination['perpage'],
 							user=result.user_id,
 						) }}" 
-						title="Search this user's auto permissions">
+						title="Search this user's auto permissions" 
+						class="search">
 						(Search)
-					</a>
-				{% endif %}
-			</td>
-			<td>
-				{% if result.user %}
-					{{ edit_user_link(result.user) }}
+					</a> 
+					{% if result.user %}
+						{{ edit_user_link(result.user) }}
+					{% endif %}
 				{% else %}
 					Any
 				{% endif %}
@@ -162,12 +160,6 @@
 			'greater_than_placeholder': 'Datetime string or timestamp',
 		},
 		{
-			'name': 'search_created_by_user',
-			'label': '',
-			'sortable': False,
-			'searchable': False,
-		},
-		{
 			'name': 'created_by_user',
 			'label': 'Created by user',
 			'sortable': False,
@@ -207,12 +199,6 @@
 		}) %}
 	{% endfor %}
 	{% set _temp = columns.extend([
-		{
-			'name': 'search_user',
-			'label': '',
-			'sortable': False,
-			'searchable': False,
-		},
 		{
 			'name': 'user',
 			'label': 'For user',
