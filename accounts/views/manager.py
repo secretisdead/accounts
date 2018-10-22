@@ -410,6 +410,8 @@ def remove_auto_permission(auto_permission_id):
 		auto_permission,
 		g.accounts.current_user.id_bytes,
 	)
+	if 'redirect_uri' in request.args:
+		return redirect(request.args['redirect_uri'], code=303)
 	return redirect(
 		url_for('accounts_manager.auto_permissions_list'),
 		code=303,

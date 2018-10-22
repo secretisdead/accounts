@@ -117,7 +117,11 @@
 			{% endif %}
 			<td>
 				<a 
-					href="{{ url_for('accounts_manager.remove_auto_permission', auto_permission_id=result.id) }}" 
+					href="{{ url_for(
+						'accounts_manager.remove_auto_permission',
+						auto_permission_id=result.id,
+						redirect_uri=request.url,
+					) }}" 
 					title="Remove auto permission">
 					Remove
 				</a>
