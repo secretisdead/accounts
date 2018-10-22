@@ -69,7 +69,10 @@
 				</a>
 			</td>
 			{% for group_name in g.accounts.available_groups %}
-				{% if g.accounts.contains_all_bits(result.group_bits, g.accounts.group_name_to_bit(group_name)) %}
+				{% if g.accounts.contains_all_bits(
+						result.group_bits,
+						g.accounts.group_name_to_bit(group_name),
+					) %}
 					<td class="checked">Yes</td>
 				{% else %}
 					<td></td>
@@ -109,7 +112,10 @@
 				<td></td>
 				<td>
 					<a 
-						href="{{ url_for('accounts_signed_in.redeem_auto_permission', permission_code=result.id) }}" 
+						href="{{ url_for(
+							'accounts_signed_in.redeem_auto_permission',
+							permission_code=result.id,
+						) }}" 
 						title="Redeem auto permission">
 						Redemption link
 					</a>
