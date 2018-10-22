@@ -64,7 +64,11 @@
 				</td>
 				<td>
 					<a 
-						href="{{ url_for('accounts_manager.remove_invite', invite_id=result.id) }}" 
+						href="{{ url_for(
+							'accounts_manager.remove_invite',
+							invite_id=result.id,
+							redirect_uri=request.url,
+						) }}" 
 						title="Remove invite">
 						Remove
 					</a>

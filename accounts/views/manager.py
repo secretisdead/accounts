@@ -675,12 +675,6 @@ def remove_invite(invite_id):
 		)
 	except ValueError as e:
 		abort(400, str(e))
-	if not invite.created_by_user_id:
-		redirect_uri = url_for('accounts_manager.invites_list')
-	else:
-		redirect_uri = url_for(
-			'accounts_manager.edit_user',
-			user_id=invite.created_by_user_id,
-		)
-	return redirect(redirect_uri, code=303)
+	if 'redirect_uri' in request.args:
+		return redirect(request.args['redirect_uri'], code=303)
 

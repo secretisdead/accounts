@@ -200,7 +200,11 @@
 							</td>
 							<td>
 								<a 
-									href="{{ url_for(remove_invite_endpoint, invite_id=invite.id) }}" 
+									href="{{ url_for(
+										remove_invite_endpoint,
+										invite_id=invite.id,
+										redirect_uri=request.url,
+									) }}" 
 									title="Remove invite">
 									Remove
 								</a>
