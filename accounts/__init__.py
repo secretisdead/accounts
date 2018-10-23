@@ -38,6 +38,15 @@ class Accounts(Users):
 				continue
 			self.enabled_services.append(service)
 
+		self.config['maximum_name_length'] = min(
+			self.name_length,
+			self.config['maximum_name_length'],
+		)
+		self.config['maximum_display_length'] = min(
+			self.display_length,
+			self.config['maximum_display_length'],
+		)
+
 		self.callbacks = {}
 
 	def add_callback(self, name, f):
