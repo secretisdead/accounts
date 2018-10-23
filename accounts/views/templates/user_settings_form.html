@@ -39,7 +39,7 @@
 		name="name" 
 		type="text" 
 		value="{{ name }}" 
-		maxlength="{{ g.accounts.name_length + 1 }}">
+		maxlength="{{ g.accounts.config['maximum_name_length'] }}">
 	<br>
 	<label for="display">Display</label>
 	<input 
@@ -47,7 +47,7 @@
 		name="display" 
 		type="text" 
 		value="{{ display }}" 
-		maxlength="{{ g.accounts.display_length + 1 }}">
+		maxlength="{{ g.accounts.config['maximum_display_length'] }}">
 	<br>
 	<input type="submit" value="Save changes">
 </form>
