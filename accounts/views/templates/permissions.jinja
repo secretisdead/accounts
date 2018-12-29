@@ -17,7 +17,7 @@
 	{% endif %}
 {% endmacro %}
 
-{% macro group_tiles(groups, inactive=None) %}
+{% macro group_tiles(groups, inactive=[]) %}
 	<p class="group_tiles">
 		{% for group in groups %}
 			<span 
