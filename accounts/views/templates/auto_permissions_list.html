@@ -98,10 +98,10 @@
 				{% endif %}
 			</td>
 			{% if result.valid_from_time and result.valid_until_time %}
-				<td data-timestamp="{{ result.creation_time }}">
-					{{ result.valid_until_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
+				<td data-timestamp="{{ result.valid_from_time }}">
+					{{ result.valid_from_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
 				</td>
-				<td data-timestamp="{{ result.creation_time }}">
+				<td data-timestamp="{{ result.valid_until_time }}">
 					{{ result.valid_until_datetime.strftime('%Y-%m-%dT%H:%M:%S.%f%z') }}
 				</td>
 				<td></td>
