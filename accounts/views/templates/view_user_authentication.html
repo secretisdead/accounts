@@ -1,7 +1,6 @@
 {% extends 'layout.html' %}
 {% block title %}User authentication{% endblock %}
 {% block content %}
-	<a href="{{ url_for('accounts_manager.edit_user', user_id=authentication.user.id) }}">Return</a>
 	<h1>User authentication</h1>
 	{% set value = '' %}
 	{% if 'local' == authentication.service %}
