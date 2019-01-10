@@ -14,10 +14,10 @@
 {% endfor %}
 <form class="user_settings" method="post" enctype="multipart/form-data" novalidate>
 	{% from 'users.jinja' import user_avatar %}
-	{% set avatar_label = 'Avatar' %}
 	<div class="avatar_preview">
 		{{ user_avatar(user, profile_link=False, fresh=True) }}
 	</div>
+	{% set avatar_label = 'Avatar' %}
 	{% if user.avatar %}
 		{% set avatar_label = 'Change avatar' %}
 		<input id="remove_avatar" name="remove_avatar" type="checkbox">
