@@ -50,7 +50,9 @@
 		'accounts_signed_in.close_session',
 	) }}
 	{% if g.accounts.config['registration_closed'] %}
-		<p><a href="{{ url_for('accounts_signed_in.create_invite') }}">Create Invite</a></p>
+		<nav class="user_invites">
+			<a href="{{ url_for('accounts_signed_in.create_invite') }}">Create Invite</a>
+		</nav>
 	{% endif %}
 	{{ user_invites_table(invites, 'accounts_signed_in.remove_invite') }}
 	<div class="danger">
