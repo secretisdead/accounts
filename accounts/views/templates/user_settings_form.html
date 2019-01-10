@@ -1,7 +1,7 @@
 <p class="user_joined">
 	{% if redeemed_invite %}
 		{% from 'users.jinja' import user_profile_link %}
-		Invited by {{ user_profile_link(redeemed_invite.created_by_user) }} on 
+		Invited by {{ user_profile_link(redeemed_invite.created_by_user) }}: 
 	{% else %}
 			Joined 
 	{% endif %}
