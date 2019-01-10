@@ -55,7 +55,7 @@
 	{% endif %}
 {% endmacro %}
 
-{% macro user_avatar(user, profile_link=True, fresh=False) %}
+{% macro user_avatar(user, profile_link=True, alternate_link='', fresh=False) %}
 	{% if not user %}
 		<div class="avatar guest">{{ user_display(user) }}</div>
 	{% elif not user.is_active() %}
@@ -87,6 +87,8 @@
 						'accounts_signed_out.profile',
 						user_identifier=user.identifier,
 					) }}">
+			{% elif alternate_link %}
+				<a href="{{ alternate_link }}">
 			{% endif %}
 			<picture>
 				<source 
@@ -99,7 +101,7 @@
 					src="{{ user.avatar }}.png{{ fresh_query }}" 
 					alt="Avatar of {{ user_display(user) }}">
 			</picture>
-			{% if profile_link %}
+			{% if profile_link or alternate_link %}
 				</a>
 			{% endif %}
 		</div>
