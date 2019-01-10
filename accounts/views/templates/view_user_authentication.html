@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %}View user authentication{% endblock %}
+{% block title %}User authentication{% endblock %}
 {% block content %}
 	<a href="{{ url_for('accounts_manager.edit_user', user_id=authentication.user.id) }}">Return</a>
 	<h1>User authentication</h1>
