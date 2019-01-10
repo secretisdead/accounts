@@ -47,13 +47,24 @@
 		<h1>Invites</h1>
 	{% endif %}
 	{{ user_invites_table(invites, 'accounts_manager.remove_invite') }}
-	<h1>Account status</h1>
-	{% if not user.is_active() %}
-		{% from 'users.jinja' import user_status %}
-		<p>{{ user_status(user) }}</p>
-		<p><a href="{{ url_for('accounts_manager.activate_user', user_id=user.id) }}">Activate</a></p>
-	{% else %}
-		<p>Deactivating user accounts will clear their settings, de-associate their user content with their account, and close their sessions. Please be sure before continuing.</p>
-		<p><a href="{{ url_for('accounts_manager.deactivate_user', user_id=user.id) }}">Deactivate account</a></p>
-	{% endif %}
+	<div class="danger">
+		{% if not user.is_active() %}
+			<h1>Account status</h1>
+			{% from 'users.jinja' import user_status %}
+			<p>{{ user_status(user) }}</p>
+			<p><a href="{{ url_for('accounts_manager.activate_user', user_id=user.id) }}">Activate</a></p>
+		{% else %}
+			<h1>Deactivate account</h1>
+			<p>
+				Deactivating user accounts will:
+				<ul>
+					<li>Clear their settings</li>
+					<li>De-associate their contributed content</li>
+					<li>Close their open sessions</li>
+				</ul>
+			</p>
+			<p>Please be sure before continuing.</p>
+			<p><a href="{{ url_for('accounts_manager.deactivate_user', user_id=user.id) }}">Deactivate account</a></p>
+		{% endif %}
+	</div>
 {% endblock %}

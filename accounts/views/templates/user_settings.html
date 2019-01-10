@@ -52,7 +52,10 @@
 		<p><a href="{{ url_for('accounts_signed_in.create_invite') }}">Create Invite</a></p>
 	{% endif %}
 	{{ user_invites_table(invites, 'accounts_signed_in.remove_invite') }}
-	<h1>Deactivate account</h1>
-	<p>Deactivating your account is permanent. Please be sure before continuing.</p>
-	<p><a href="{{ url_for('accounts_signed_in.deactivate') }}">Deactivate account</a></p>
+	<div class="danger">
+		<h1>Deactivate account</h1>
+		<p>Deactivating your account is permanent.</p>
+		<p>Please be sure before continuing.</p>
+		<p><a href="{{ url_for('accounts_signed_in.deactivate') }}">Deactivate account</a></p>
+	</div>
 {% endblock %}
