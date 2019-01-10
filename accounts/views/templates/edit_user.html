@@ -21,21 +21,25 @@
 		<input name="permissions_submit" type="submit" value="Save permissions">
 	</form>
 	{% if 0 < user.authentications.items()|length %}
-		<h1>Authentications</h1>
-		{% from 'authentications.jinja' import service_display %}
-		{% for service in g.accounts.config['authentication_services'].keys() %}
-			{% if service in user.authentications %}
-				<p>
-					<a 
-						class="authentication_service view" 
-						href="{{ url_for('accounts_manager.view_user_authentication', user_id=user.id, service=service) }}" 
-						title="View authentication" 
-						data-service="{{ service }}">
-						{{ '{} connected'.format(service_display(service)) }}
-					</a>
-				</p>
-			{% endif %}
-		{% endfor %}
+		<div class="user_authentications">
+			<h1>Authentications</h1>
+			{% from 'authentications.jinja' import service_display %}
+			<div class="authentication_services">
+				{% for service in g.accounts.config['authentication_services'].keys() %}
+					{% if service in user.authentications %}
+						<p>
+							<a 
+								class="authentication_service view" 
+								href="{{ url_for('accounts_manager.view_user_authentication', user_id=user.id, service=service) }}" 
+								title="View authentication" 
+								data-service="{{ service }}">
+								{{ '{} connected'.format(service_display(service)) }}
+							</a>
+						</p>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
 	{% endif %}
 	{% from 'users.jinja' import user_sessions_table, user_invites_table %}
 	{{ user_sessions_table(
