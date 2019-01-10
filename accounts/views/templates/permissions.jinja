@@ -44,7 +44,10 @@
 					<td>{{ scope_display(scope) }}</td>
 					{% for group_name in groups %}
 						<td>
-							<input name="scope_{{ scope }}_group_{{ group_name }}" type="checkbox"{% if group_name in selected_groups[scope] %} checked{% endif %}>
+							<input 
+								name="scope_{{ scope }}_group_{{ group_name }}" 
+								type="checkbox"{% if group_name in selected_groups[scope] %} checked{% endif %}>
+							<label for="scope_{{ scope }}_group_{{ group_name }}"></label>
 						</td>
 					{% endfor %}
 				</tr>
