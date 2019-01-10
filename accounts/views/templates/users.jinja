@@ -111,11 +111,11 @@
 {% macro user_sessions_table(sessions, close_all_sessions_uri, close_session_endpoint) %}
 	{% from 'useragents.jinja' import browser_display, platform_display %}
 	{% if 0 < sessions|length %}
-		<h1>Sessions</h1>
-		<p>
+		<nav class="user_sessions">
 			<a href="{{ close_all_sessions_uri }}">Close all sessions</a>
-		</p>
-		<table>
+		</nav>
+		<table class="user_sessions">
+			<caption>Sessions</caption>
 			<thead>
 				<tr>
 					<td>Platform</td>
@@ -166,7 +166,8 @@
 
 {% macro user_invites_table(invites, remove_invite_endpoint) %}
 	{% if 0 < invites|length %}
-		<table>
+		<table class="user_invites">
+			<caption>Invites</caption>
 			<thead>
 				<tr>
 					<td>Created</td>

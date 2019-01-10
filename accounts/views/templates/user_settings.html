@@ -49,9 +49,6 @@
 		url_for('accounts_signed_in.close_all_sessions'),
 		'accounts_signed_in.close_session',
 	) }}
-	{% if g.accounts.config['registration_closed'] or 0 < invites.values()|length %}
-		<h1>Invites</h1>
-	{% endif %}
 	{% if g.accounts.config['registration_closed'] %}
 		<p><a href="{{ url_for('accounts_signed_in.create_invite') }}">Create Invite</a></p>
 	{% endif %}
