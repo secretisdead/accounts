@@ -1,8 +1,9 @@
 {% extends 'layout.html' %}
 {% from 'users.jinja' import user_display %}
-{% block title %}Profile of {{ user_display(user) }}{% endblock %}
+{% set title = 'Profile of ' + user_display(user) %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
-	<h1>Profile of {{ user_display(user) }}</h1>
+	<h1>{{ title }}</h1>
 	{% from 'users.jinja' import user_avatar %}
 	{% if g.accounts.current_user and g.accounts.current_user.has_permission(group_names='manager') %}
 		{{ user_avatar(
@@ -31,3 +32,4 @@
 	{% from 'permissions.jinja' import group_tiles %}
 	{{ group_tiles(groups, inactive_groups) }}
 {% endblock %}
+{% include 'user_profile_rich_data.html' %}

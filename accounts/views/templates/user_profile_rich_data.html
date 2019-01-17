@@ -1,0 +1,14 @@
+{% block meta %}
+	{% set avatar = user.avatar + '.webp' %}
+	{% set description = ['Joined ' + user.creation_datetime.strftime('%Y-%m-%d')] %}
+	{% for card in cards %}
+		{% set _ = description.append(card['title']) %}
+	{% endfor %}
+	{% set description = description|join(' | ') %}
+	<meta name="twitter:title" content="{{ title }}">
+	<meta property="og:title" content="{{ title }}">
+	<meta name="twitter:image" content="{{ avatar }}">
+	<meta property="og:image" content="{{ avatar }}">
+	<meta name="twitter:description" content="{{ description }}">
+	<meta property="og:description" content="{{ description }}">
+{% endblock %}
