@@ -1,11 +1,13 @@
 {% extends 'layout.html' %}
 {% block title %}Remove authentication{% endblock %}
 {% block content %}
-	<h1>Remove authentication</h1>
-	<p>This is your only remaining authentication. If you remove it, then your account will be inaccessible when your current session closes.</p>
-	<p>
-		<a href="{{ url_for('accounts_signed_in.remove_authentication', service=service, confirm='1') }}">
-			Remove authentication
-		</a>
-	</p>
+	<div class="confirm">
+		<h1>Remove authentication</h1>
+		<p>This is your only remaining authentication. If you remove it, then your account will be inaccessible when your current session closes.</p>
+		<p>
+			<a href="{{ url_for('accounts_signed_in.remove_authentication', service=service, confirm='1') }}">
+				Remove authentication
+			</a>
+		</p>
+	</div>
 {% endblock %}
