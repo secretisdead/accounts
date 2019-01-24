@@ -22,7 +22,7 @@ def sign_in_services(*args, **kwargs):
 		'sign_in_services.html',
 		endpoint='accounts_signed_out.sign_in',
 		**kwargs
-	)
+	), 401
 
 def validate_service(service):
 	try:
