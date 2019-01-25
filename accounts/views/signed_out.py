@@ -59,7 +59,11 @@ def redeem_invite(service=None):
 			endpoint='accounts_signed_out.register',
 			invite=invite,
 		)
-	return render_template('redeem_invite.html', invite=invite)
+	return render_template(
+		'redeem_invite.html',
+		invite=invite,
+		service=service,
+	)
 
 def register_local():
 	if g.accounts.register_cooldown():
