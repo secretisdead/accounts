@@ -2,7 +2,7 @@
 {% block title %}Redeem invite{% endblock %}
 {% block content %}
 	<form action="{{ url_for('accounts_signed_out.register', service=service) }}">
-		<label for="invite">Invite Code</label>'
+		<label for="invite">Invite code</label>
 		<input name="invite" type="text" value="{{ invite }}">
 		<br>
 		<input type="submit" value="Continue to Registration">
