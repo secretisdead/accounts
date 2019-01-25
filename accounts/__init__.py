@@ -162,7 +162,7 @@ class Accounts(Users):
 		self.access_log.create_log(
 			scope='delete_invite',
 			subject_id=subject_id,
-			object_id=invite_id,
+			object_id=invite.id,
 		)
 		return invite
 
