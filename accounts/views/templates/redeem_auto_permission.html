@@ -12,9 +12,9 @@
 	{% else %}
 		{% from 'permissions.jinja' import scope_display, group_display %}
 		<p>
-			This code can be redeemed to add 
+			This code can be redeemed to set 
 			<span>{{ auto_permission.duration }} seconds</span> 
-			for scope 
+			on your account for scope 
 			<strong>{{ scope_display(auto_permission.scope) }}</strong> 
 			to the following groups:
 		</p>
@@ -29,9 +29,9 @@
 			{% endfor %}
 		</ul>
 		<form>
+			<input type="submit" value="Redeem">
 			<input name="confirm" type="hidden">
 			<input name="permission_code" type="hidden" value="{{ auto_permission.id }}">
-			<input type="submit" value="Redeem">
 		</form>
 	{% endif %}
 {% endblock %}
