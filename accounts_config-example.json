@@ -58,7 +58,21 @@
 	"home_endpoint": "home",
 
 	"reserved_names": [
-		"add_reserved_names_here"
+		"accounts",
+		"comments",
+		"stickers",
+		"media",
+		"api",
+
+		"admin",
+		"manager",
+		"contributor",
+
+		"legal",
+		"about",
+		"announcements",
+		"premium",
+		"profile"
 	],
 
 	"always_visible_profile_groups": [
