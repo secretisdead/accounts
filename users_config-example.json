@@ -22,7 +22,7 @@
 
 	"invite_lifetime": 604800,
 
-	"registration_closed": true,
+	"registration_closed": false,
 
 	"registration_cooldown_amount": 3,
 	"registration_cooldown_period": 604800,
