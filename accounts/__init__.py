@@ -505,7 +505,7 @@ class Accounts(Users):
 
 		value = account_name_hash + ';' + pass_context.hash(passphrase)
 		try:
-			self.register(service, value, remote_origin, useragent)
+			self.register('local', value, remote_origin, useragent)
 		except ValueError as e:
 			return [str(e)]
 		return []
