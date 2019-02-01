@@ -40,13 +40,13 @@
 
 	"authentication_services": {
 		"local": true,
-		"google": true,
-		"twitter": true,
-		"patreon": true,
-		"discord": true,
-		"steam": true,
-		"github": true,
-		"twitch": true
+		"google": false,
+		"twitter": false,
+		"patreon": false,
+		"discord": false,
+		"steam": false,
+		"github": false,
+		"twitch": false
 	},
 
 	"maximum_name_length": 16,
