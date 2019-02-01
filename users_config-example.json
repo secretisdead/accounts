@@ -55,7 +55,7 @@
 
 	"default_auto_permission_duration": 3110400,
 
-	"home_endpoint": "home",
+	"home_endpoint": "persephone.home",
 
 	"reserved_names": [
 		"accounts",
