@@ -166,7 +166,7 @@ class Accounts(Users):
 		)
 		return invite
 
-	def close_session(self, user_id, session_id):
+	def close_session(self, session_id, user_id=''):
 		try:
 			super().close_session(session_id)
 		# ignore non-existant and already closed session exceptions
@@ -566,8 +566,8 @@ class Accounts(Users):
 				subject_id=self.current_user.id_bytes,
 			)
 			self.close_session(
-				self.current_user.id_bytes,
 				self.current_user.session.id_bytes,
+				user_id=self.current_user.id_bytes,
 			)
 
 	def create_current_user_session(self, remote_origin, useragent):

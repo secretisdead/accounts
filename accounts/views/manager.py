@@ -486,8 +486,8 @@ def sessions_list():
 def close_session(session_id):
 	session = require_session(session_id)
 	g.accounts.close_session(
-		g.accounts.current_user.id_bytes,
 		session.id_bytes,
+		user_id=g.accounts.current_user.id_bytes,
 	)
 	return redirect(
 		url_for('accounts_manager.edit_user', user_id=session.user_id),
