@@ -393,7 +393,7 @@ def create_auto_permissions():
 @require_permissions(group_names='manager')
 def sync_auto_permissions():
 	g.accounts.sync_auto_permissions(
-		sync_initiated_by_user_id=g.accounts.current_user.id,
+		subject_id=g.accounts.current_user.id,
 	)
 	return redirect(
 		url_for('accounts_manager.auto_permissions_list'),

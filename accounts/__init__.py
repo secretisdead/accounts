@@ -217,20 +217,17 @@ class Accounts(Users):
 			object_id=auto_permission.id_bytes,
 		)
 
-	def sync_auto_permissions(self, sync_initiated_by_user_id=None, **kwargs):
+	def sync_auto_permissions(self, subject_id='', **kwargs):
 		super().sync_auto_permissions(**kwargs)
 		#TODO auto permissions sync with multiple user ids doesn't log well
 		#TODO nothing to do about this except log only the first one
 		#TODO or loop and log all of them
-		subject_id = ''
 		object_id = ''
 		if 'user_ids' in kwargs:
 			if list == type(kwargs['user_ids']):
 				object_id = kwargs['user_ids'][0]
 			else:
 				object_id = kwargs['user_ids']
-		if sync_initiated_by_user_id:
-			subject_id = sync_initiated_by_user_id
 		self.access_log.create_log(
 			scope='sync_auto_permissions',
 			subject_id=subject_id,
