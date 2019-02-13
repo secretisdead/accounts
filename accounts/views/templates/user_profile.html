@@ -19,9 +19,9 @@
 		{{ user_avatar(user, profile_link=False, fresh=fresh) }}
 	{% endif %}
 	{% for card in cards %}
-		<p class="user_profile_card" data-card="{{ card['name'] }}">
+		<p class="user_profile_card" data-card="{{ card['name'] }}" title="{{ card['title'] }}">
 			{% if 'uri' in card %}
-				<a href="{{ card['uri'] }}" title="{{ card['title'] }}">
+				<a href="{{ card['uri'] }}">
 					{{ card['display'] }}
 				</a>
 			{% else %}
