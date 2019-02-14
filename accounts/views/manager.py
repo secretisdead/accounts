@@ -249,7 +249,7 @@ def permissions_list():
 			filter['scopes'] = value
 	selected_groups = []
 	for group in g.accounts.available_groups:
-		if 'group_' + group in request.form:
+		if 'group_' + group in request.args:
 			selected_groups.append(group)
 	if selected_groups:
 		filter['with_group_bits'] = g.accounts.combine_groups(
