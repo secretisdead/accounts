@@ -72,7 +72,10 @@
 		"about",
 		"announcements",
 		"premium",
-		"profile"
+		"profile",
+		"to",
+		"tegaki",
+		"pages"
 	],
 
 	"always_visible_profile_groups": [
