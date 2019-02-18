@@ -127,9 +127,29 @@ def remove_invite(invite_id):
 		abort(400, str(e))
 	return redirect(url_for('accounts_signed_in.settings'), code=303)
 
-@accounts_signed_in.route('/authentication/<service>/add')
+@accounts_signed_in.route('/authentication/<service>/add', methods=['GET', 'POST'])
 @require_sign_in
 def add_authentication(service):
+	if 'local' == service:
+		if 'POST' != request.method:
+			return render_template('register_local.html')
+		for field in ['account_name', 'pass', 'pass_confirmation']:
+			if field not in request.form:
+				abort(400, 'Missing local registration fields')
+		errors = g.accounts.register_local(
+			request.form['account_name'],
+			request.form['pass'],
+			request.form['pass_confirmation'],
+			str(request.remote_addr),
+			str(request.user_agent),
+		)
+		if errors:
+			return render_template(
+				'register_local.html',
+				account_name=request.form['account_name'],
+				errors=errors,
+			)
+		return redirect(url_for('accounts_signed_in.settings'), code=303)
 	return register_third_party_auth(service, 'connect')
 
 @accounts_signed_in.route('/authentication/<service>/remove')
