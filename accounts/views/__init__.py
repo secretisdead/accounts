@@ -9,8 +9,14 @@ import urllib
 
 from .. import Accounts
 
-def initialize(config, access_log, engine, install):
-	g.accounts = Accounts(config, access_log, engine, install=install)
+def initialize(config, access_log, engine, install=False, connection=None):
+	g.accounts = Accounts(
+		config,
+		access_log,
+		engine,
+		install=install,
+		connection=connection,
+	)
 
 	# use default avatar file uri if custom uri isn't specified
 	if not g.accounts.config['avatar_file_uri']:

@@ -13,8 +13,20 @@ from base64_url import base64_url_encode, base64_url_decode
 from parse_id import get_id_bytes
 
 class Accounts(Users):
-	def __init__(self, config, access_log, engine, install=False):
-		super().__init__(engine, config['db_prefix'], install)
+	def __init__(
+			self,
+			config,
+			access_log,
+			engine,
+			install=False,
+			connection=None,
+		):
+		super().__init__(
+			engine,
+			config['db_prefix'],
+			install=install,
+			connection=connection,
+		)
 
 		self.require_unique_names = True
 		self.require_unique_displays = True
