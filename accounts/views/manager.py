@@ -586,7 +586,6 @@ def authentication_redirect(user_id, service):
 		'patreon': 'https://www.patreon.com/user?u={}',
 		'discord': 'https://discordapp.com/users/{}',
 		'steam': 'https://steamcommunity.com/profiles/{}',
-		'twitch': 'https://api.twitch.tv/helix/users?id={}',
 	}
 	if 'github' == authentication.service:
 		# get actual github user page from user id
@@ -598,6 +597,18 @@ def authentication_redirect(user_id, service):
 		response = urllib.request.urlopen(req)
 		user_info = json.loads(response.read())
 		service_profile_uri = user_info['html_url']
+	elif 'twitch' == authentication.service:
+		req = urllib.request.Request(
+			'https://api.twitch.tv/kraken/users/{}'.format(authentication.value)
+		)
+		req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
+		req.add_header(
+			'Client-ID',
+			g.accounts.config['credentials']['twitch']['client_id'],
+		)
+		response = urllib.request.urlopen(req)
+		user_info = json.loads(response.read())
+		service_profile_uri = 'https://twitch.tv/{}'.format(user_info['name'])
 	elif authentication.service in service_profile_uris:
 		service_profile_uri = service_profile_uris[authentication.service].format(
 			authentication.value
