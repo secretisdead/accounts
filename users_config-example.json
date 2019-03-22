@@ -9,7 +9,7 @@
 	"avatar_edge": 64,
 
 	"session": {
-		"name": "session_cookie_name",
+		"name": "pspnu",
 		"lifetime": 31557600,
 		"review_lifetime": 2628000,
 		"path": "",
