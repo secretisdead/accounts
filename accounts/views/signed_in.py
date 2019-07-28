@@ -54,7 +54,7 @@ def settings():
 	}
 	if 'remove_avatar' in request.form:
 		opts['remove_avatar'] = True
-	elif 'avatar' in request.files:
+	elif 'avatar' in request.files and '' != request.files['avatar'].filename:
 		opts['avatar'] = request.files['avatar']
 	errors = g.accounts.edit_user_settings(user, **opts)
 	if not errors:
