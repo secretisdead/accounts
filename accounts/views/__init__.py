@@ -4,7 +4,10 @@ import hashlib
 
 from flask import g
 from flask import request, after_this_request, url_for, abort, redirect
-from werkzeug import UserAgent
+try:
+	from werkzeug.useragents import UserAgent
+except ImportError:
+	from werkzeug import UserAgent
 import urllib
 
 from .. import Accounts
