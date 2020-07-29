@@ -291,6 +291,9 @@ class Accounts(Users):
 				return
 		user.avatar = self.config['avatar_file_uri'].format(user.id)
 
+		# serve files over same protocol as pages
+		user.avatar = user.avatar.replace('https:', '').replace('http:', '')
+
 	def populate_user_properties(self, user):
 		self.populate_avatar(user)
 
